@@ -15,6 +15,17 @@ It parses ASTs (Tree-sitter), extracts every function, class, dependency, and ca
 
 Supports 13 languages: TypeScript, JavaScript, Python, Java, Kotlin, C#, Go, Rust, PHP, Ruby, Swift, C, C++.
 
+### Why?
+
+Without GitNexus, AI assistants read code **file-by-file** — they can grep and search, but don't truly understand how pieces connect. GitNexus gives AI a **structural map** of your entire codebase:
+
+- 🔍 **Trace execution flows** — see the full call chain `A → B → C`, not just individual files
+- 💥 **Blast radius analysis** — before editing a function, know exactly what will break (direct callers, indirect dependents, affected modules)
+- ⚠️ **Pre-commit risk detection** — map your `git diff` to affected processes and get a risk assessment before pushing
+- ✏️ **Safe multi-file renames** — rename a symbol across the entire codebase using the knowledge graph, not regex find-and-replace
+
+> **In short:** GitNexus turns your AI from a "file reader" into a "codebase navigator."
+
 ---
 
 ## Quick Start

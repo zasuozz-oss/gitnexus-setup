@@ -15,6 +15,17 @@ Nó phân tích AST (Tree-sitter), trích xuất mọi function, class, dependen
 
 Hỗ trợ 13 ngôn ngữ: TypeScript, JavaScript, Python, Java, Kotlin, C#, Go, Rust, PHP, Ruby, Swift, C, C++.
 
+### Tại sao cần GitNexus?
+
+Nếu không có GitNexus, AI chỉ đọc code **từng file một** — có thể grep và search, nhưng không thực sự hiểu các phần code liên kết với nhau thế nào. GitNexus cung cấp cho AI một **bản đồ cấu trúc** toàn bộ codebase:
+
+- 🔍 **Truy vết luồng thực thi** — xem toàn bộ call chain `A → B → C`, không chỉ từng file riêng lẻ
+- 💥 **Phân tích blast radius** — trước khi sửa một function, biết chính xác những gì sẽ bị ảnh hưởng (caller trực tiếp, phụ thuộc gián tiếp, module liên quan)
+- ⚠️ **Phát hiện rủi ro trước khi commit** — map `git diff` tới các process bị ảnh hưởng và đánh giá mức độ rủi ro trước khi push
+- ✏️ **Rename an toàn đa file** — đổi tên symbol trên toàn bộ codebase dựa vào knowledge graph, không phải regex find-and-replace
+
+> **Tóm lại:** GitNexus biến AI từ "đọc file" thành "hiểu kiến trúc."
+
 ---
 
 ## Quick Start
