@@ -19,6 +19,8 @@ step()  { echo -e "\n${CYAN}── $* ──${NC}"; }
 
 # ── Config ───────────────────────────────────────────────────
 ANTIGRAVITY_MCP="$HOME/.gemini/antigravity/mcp_config.json"
+GITNEXUS_DIR="$HOME/AI-Tool/GitNexus"
+GITNEXUS_WEB_DIR="$GITNEXUS_DIR/gitnexus-web"
 
 # ── Prereqs ──────────────────────────────────────────────────
 check_prereqs() {
@@ -135,6 +137,46 @@ install_sync_script() {
   fi
 }
 
+# ── Fork/clone GitNexus for Web UI ────────────────────────────
+fork_web_ui() {
+  step "Setting up GitNexus Web UI"
+
+  if [ -d "$GITNEXUS_WEB_DIR" ]; then
+    ok "GitNexus already cloned at $GITNEXUS_DIR"
+    # Pull latest
+    if git -C "$GITNEXUS_DIR" pull --ff-only 2>/dev/null; then
+      ok "Pulled latest changes"
+    fi
+    return
+  fi
+
+  mkdir -p "$(dirname "$GITNEXUS_DIR")"
+
+  if command -v gh &>/dev/null; then
+    info "Forking abhigyanpatwari/GitNexus via GitHub CLI..."
+    if (cd "$(dirname "$GITNEXUS_DIR")" && gh repo fork abhigyanpatwari/GitNexus --clone=true 2>&1); then
+      ok "Forked and cloned → $GITNEXUS_DIR"
+    else
+      warn "Fork failed — falling back to clone"
+      git clone https://github.com/abhigyanpatwari/GitNexus.git "$GITNEXUS_DIR"
+      ok "Cloned → $GITNEXUS_DIR"
+    fi
+  else
+    info "gh CLI not found — cloning directly..."
+    git clone https://github.com/abhigyanpatwari/GitNexus.git "$GITNEXUS_DIR"
+    ok "Cloned → $GITNEXUS_DIR"
+  fi
+
+  # Install web UI dependencies
+  if [ -d "$GITNEXUS_WEB_DIR" ]; then
+    step "Installing Web UI dependencies"
+    (cd "$GITNEXUS_WEB_DIR" && npm install 2>&1)
+    ok "Web UI dependencies installed"
+  else
+    warn "gitnexus-web/ not found in cloned repo"
+  fi
+}
+
 # ── Main ─────────────────────────────────────────────────────
 main() {
   echo -e "\n${CYAN}🔧 GitNexus for Antigravity${NC}"
@@ -142,6 +184,7 @@ main() {
   check_prereqs
   configure_mcp
   install_sync_script
+  fork_web_ui
   warm_cache
 
   echo ""
@@ -151,6 +194,7 @@ main() {
   echo ""
   echo -e "  ${DIM}Index a repo${NC}    cd your-project && npx gitnexus analyze --skills"
   echo -e "  ${DIM}Sync skills${NC}    gitnexus-sync"
+  echo -e "  ${DIM}Web UI${NC}         npx gitnexus serve & cd $GITNEXUS_WEB_DIR && npm run dev"
   echo -e "  ${DIM}Re-run setup${NC}   ./setup.sh"
   echo ""
   echo -e "  ${YELLOW}→ Restart Antigravity to load MCP${NC}"
