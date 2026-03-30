@@ -1,0 +1,72 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+.claude/settings.local.json
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Testing
+coverage/
+
+# Misc
+*.local
+
+.vercel
+
+
+
+
+
+
+.env*.local
+.gitnexus
+.claude/settings.local.json
+
+# Claude Code worktrees
+.claude/worktrees/
+
+# Claude code skills
+.claude/skills/generated/
+
+# Assets (screenshots, images)
+assets/
+
+# Generated files (should not be indexed)
+repomix-output*
+
+# Design docs (local only)
+docs/plans/
+
+gitnexus/test/fixtures/mini-repo/*.md
+gitnexus/test/fixtures/mini-repo/.claude
+gitnexus/test/fixtures/mini-repo/.gitignore
+
+# Ignore csharp generated obj and bin folders
+gitnexus/test/fixtures/lang-resolution/**/obj
+gitnexus/test/fixtures/lang-resolution/**/bin
+GitNexus.sln
+# Git worktrees
+.worktrees/
